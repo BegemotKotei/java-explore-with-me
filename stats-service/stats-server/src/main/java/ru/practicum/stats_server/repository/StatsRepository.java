@@ -3,12 +3,14 @@ package ru.practicum.stats_server.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import ru.practicum.stats_common.model.ViewStats;
 import ru.practicum.stats_server.model.Stats;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface StatsRepository extends JpaRepository<Stats, Long> {
     @Query("SELECT new ru.practicum.stats_common.model.ViewStats(s.app, s.uri, COUNT(DISTINCT s.ip)) " +
             "FROM Stats s " +
