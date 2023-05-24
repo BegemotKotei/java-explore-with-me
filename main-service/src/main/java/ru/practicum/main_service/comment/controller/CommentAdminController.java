@@ -3,6 +3,7 @@ package ru.practicum.main_service.comment.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +30,10 @@ public class CommentAdminController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CommentDto> getCommentsByAdmin(
+    public ResponseEntity<List<CommentDto>> getCommentsByAdmin(
             @PositiveOrZero @RequestParam(defaultValue = Constants.PAGE_FROM) Integer from,
             @Positive @RequestParam(defaultValue = Constants.PAGE_SIZE) Integer size) {
-        return commentService.getCommentsByAdmin(PageRequest.of(from / size, size));
+        return ResponseEntity.ok().body(commentService.getCommentsByAdmin(PageRequest.of(from / size, size)));
     }
 
     @DeleteMapping("/{commentId}")

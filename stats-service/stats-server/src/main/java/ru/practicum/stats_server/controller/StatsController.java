@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,10 +34,10 @@ public class StatsController {
     }
 
     @GetMapping(Constants.STATS_ENDPOINT)
-    public List<ViewStats> getStats(@RequestParam @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime start,
-                                    @RequestParam @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime end,
-                                    @RequestParam(required = false) List<String> uris,
-                                    @RequestParam(defaultValue = "false") Boolean unique) {
-        return statsService.getStats(start, end, uris, unique);
+    public ResponseEntity<List<ViewStats>> getStats(@RequestParam @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime start,
+                                                    @RequestParam @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime end,
+                                                    @RequestParam(required = false) List<String> uris,
+                                                    @RequestParam(defaultValue = "false") Boolean unique) {
+        return ResponseEntity.ok().body(statsService.getStats(start, end, uris, unique));
     }
 }

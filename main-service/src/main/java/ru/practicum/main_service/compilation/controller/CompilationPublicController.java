@@ -3,6 +3,7 @@ package ru.practicum.main_service.compilation.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,17 +29,17 @@ public class CompilationPublicController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CompilationDto> getAllCompilationDto(
+    public ResponseEntity<List<CompilationDto>> getAllCompilationDto(
             @RequestParam(required = false) Boolean pinned,
             @PositiveOrZero @RequestParam(defaultValue = Constants.PAGE_FROM) Integer from,
             @Positive @RequestParam(defaultValue = Constants.PAGE_SIZE) Integer size) {
-        return compilationService.getAllCompilationDto(pinned, PageRequest.of(from / size, size));
+        return ResponseEntity.ok().body(compilationService.getAllCompilationDto(pinned, PageRequest.of(from / size, size)));
     }
 
     @GetMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
-    public CompilationDto getCompilationDtoById(@PathVariable Long compId) {
-        return compilationService.getCompilationDtoById(compId);
+    public ResponseEntity<CompilationDto> getCompilationDtoById(@PathVariable Long compId) {
+        return ResponseEntity.ok().body(compilationService.getCompilationDtoById(compId));
     }
 
 }

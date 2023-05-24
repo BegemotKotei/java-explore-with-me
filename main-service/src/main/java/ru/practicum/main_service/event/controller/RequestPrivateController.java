@@ -2,6 +2,7 @@ package ru.practicum.main_service.event.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,22 +25,22 @@ public class RequestPrivateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ParticipationRequestDto createEventRequest(@PathVariable Long userId,
+    public ResponseEntity<ParticipationRequestDto> createEventRequest(@PathVariable Long userId,
                                                       @RequestParam Long eventId) {
-        return requestService.createEventRequest(userId, eventId);
+        return ResponseEntity.ok().body(requestService.createEventRequest(userId, eventId));
     }
 
     @PatchMapping("/{requestId}/cancel")
     @ResponseStatus(HttpStatus.OK)
-    public ParticipationRequestDto cancelEventRequest(@PathVariable Long userId,
+    public ResponseEntity<ParticipationRequestDto> cancelEventRequest(@PathVariable Long userId,
                                                       @PathVariable Long requestId) {
-        return requestService.cancelEventRequest(userId, requestId);
+        return ResponseEntity.ok().body(requestService.cancelEventRequest(userId, requestId));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ParticipationRequestDto> getEventRequestsByRequester(@PathVariable Long userId) {
-        return requestService.getEventRequestsByRequester(userId);
+    public ResponseEntity<List<ParticipationRequestDto>> getEventRequestsByRequester(@PathVariable Long userId) {
+        return ResponseEntity.ok().body(requestService.getEventRequestsByRequester(userId));
     }
 
 }

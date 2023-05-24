@@ -3,6 +3,7 @@ package ru.practicum.main_service.comment.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,28 +35,28 @@ public class CommentPrivateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto createByPrivate(@PathVariable Long userId,
+    public ResponseEntity<CommentDto> createByPrivate(@PathVariable Long userId,
                                       @RequestParam Long eventId,
                                       @Valid @RequestBody NewCommentDto newCommentDto) {
-        return commentService.createCommentByPrivate(userId, eventId, newCommentDto);
+        return ResponseEntity.ok().body(commentService.createCommentByPrivate(userId, eventId, newCommentDto));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CommentDto> getCommentsByPrivate(
+    public ResponseEntity<List<CommentDto>> getCommentsByPrivate(
             @PathVariable Long userId,
             @RequestParam(required = false) Long eventId,
             @PositiveOrZero @RequestParam(defaultValue = Constants.PAGE_FROM) Integer from,
             @Positive @RequestParam(defaultValue = Constants.PAGE_SIZE) Integer size) {
-        return commentService.getCommentsByPrivate(userId, eventId, PageRequest.of(from / size, size));
+        return ResponseEntity.ok().body(commentService.getCommentsByPrivate(userId, eventId, PageRequest.of(from / size, size)));
     }
 
     @PatchMapping("/{commentId}")
     @ResponseStatus(HttpStatus.OK)
-    public CommentDto updateByPrivate(@PathVariable Long userId,
+    public ResponseEntity<CommentDto> updateByPrivate(@PathVariable Long userId,
                                       @PathVariable Long commentId,
                                       @Valid @RequestBody NewCommentDto newCommentDto) {
-        return commentService.updateCommentByPrivate(userId, commentId, newCommentDto);
+        return ResponseEntity.ok().body(commentService.updateCommentByPrivate(userId, commentId, newCommentDto));
     }
 
     @DeleteMapping("/{commentId}")
