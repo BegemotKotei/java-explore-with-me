@@ -339,4 +339,11 @@ public class EventServiceImpl implements EventService {
         }
     }
 
+    @Override
+    public void checkEventInBase(Long eventId) {
+        if (!eventRepository.existsById(eventId)) {
+            throw new NotFoundException("Event with ID " + eventId + " doesn't exist");
+        }
+    }
+
 }

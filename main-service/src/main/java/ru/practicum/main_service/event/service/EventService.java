@@ -41,4 +41,6 @@ public interface EventService {
 
     List<EventShortDto> toEventsShortDto(List<Event> events);
 
+    void checkEventInBase(Long eventId);
+
 }
