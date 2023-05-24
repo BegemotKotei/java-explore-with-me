@@ -25,6 +25,7 @@ public class ErrorHandler {
     @ExceptionHandler({
             DataIntegrityViolationException.class,
             DateTimeParseException.class,
+            ClassCastException.class,
             IllegalArgumentException.class,
             MethodArgumentNotValidException.class,
             MethodArgumentTypeMismatchException.class,
