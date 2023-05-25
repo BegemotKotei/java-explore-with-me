@@ -3,7 +3,6 @@ package ru.practicum.main_service.comment.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,17 +28,17 @@ public class CommentPublicController {
 
     @GetMapping("/{commentId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<CommentDto> getCommentByPublic(@PathVariable Long commentId) {
-        return ResponseEntity.ok().body(commentService.getCommentByPublic(commentId));
+    public CommentDto getCommentByPublic(@PathVariable Long commentId) {
+        return commentService.getCommentByPublic(commentId);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<CommentDto>> getCommentsByPublic(
+    public List<CommentDto> getCommentsByPublic(
             @RequestParam Long eventId,
             @PositiveOrZero @RequestParam(defaultValue = Constants.PAGE_FROM) Integer from,
             @Positive @RequestParam(defaultValue = Constants.PAGE_SIZE) Integer size) {
-        return ResponseEntity.ok().body(commentService.getCommentsByPublic(eventId, PageRequest.of(from / size, size)));
+        return commentService.getCommentsByPublic(eventId, PageRequest.of(from / size, size));
     }
 
 }

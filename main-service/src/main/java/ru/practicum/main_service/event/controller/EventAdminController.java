@@ -3,7 +3,6 @@ package ru.practicum.main_service.event.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,7 +34,7 @@ public class EventAdminController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<EventFullDto>> getEventsDtoByAdmin(
+    public List<EventFullDto> getEventsDtoByAdmin(
             @RequestParam(required = false) List<Long> users,
             @RequestParam(required = false) List<EventState> states,
             @RequestParam(required = false) List<Long> categories,
@@ -43,14 +42,14 @@ public class EventAdminController {
             @RequestParam(required = false) @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime rangeEnd,
             @PositiveOrZero @RequestParam(defaultValue = Constants.PAGE_FROM) Integer from,
             @Positive @RequestParam(defaultValue = Constants.PAGE_SIZE) Integer size) {
-        return ResponseEntity.ok().body(eventService.getEventsDtoByAdmin(users, states, categories, rangeStart, rangeEnd, from, size));
+        return eventService.getEventsDtoByAdmin(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
     @PatchMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<EventFullDto> updateEventByAdmin(@PathVariable Long eventId,
+    public EventFullDto updateEventByAdmin(@PathVariable Long eventId,
                                            @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
-        return ResponseEntity.ok().body(eventService.updateEventByAdmin(eventId, updateEventAdminRequest));
+        return eventService.updateEventByAdmin(eventId, updateEventAdminRequest);
     }
 
 }

@@ -3,7 +3,6 @@ package ru.practicum.main_service.user.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,17 +33,17 @@ public class UserAdminController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody NewUserRequest newUserRequest) {
-        return ResponseEntity.ok().body(userService.createUser(newUserRequest));
+    public UserDto createUser(@Valid @RequestBody NewUserRequest newUserRequest) {
+        return userService.createUser(newUserRequest);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<UserDto>> getUsers(
+    public List<UserDto> getUsers(
             @RequestParam(required = false) List<Long> ids,
             @PositiveOrZero @RequestParam(defaultValue = Constants.PAGE_FROM) Integer from,
             @Positive @RequestParam(defaultValue = Constants.PAGE_SIZE) Integer size) {
-        return ResponseEntity.ok().body(userService.getUsersDto(ids, PageRequest.of(from / size, size)));
+        return userService.getUsersDto(ids, PageRequest.of(from / size, size));
     }
 
     @DeleteMapping("/{userId}")
