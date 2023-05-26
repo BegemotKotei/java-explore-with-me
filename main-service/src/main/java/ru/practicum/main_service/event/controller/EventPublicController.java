@@ -3,6 +3,7 @@ package ru.practicum.main_service.event.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,7 @@ public class EventPublicController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<EventShortDto> getEventsByPublic(
+    public ResponseEntity<List<EventShortDto>> getEventsByPublic(
             @RequestParam(required = false) String text,
             @RequestParam(required = false) List<Long> categories,
             @RequestParam(required = false) Boolean paid,
@@ -50,8 +51,8 @@ public class EventPublicController {
             @PositiveOrZero @RequestParam(defaultValue = Constants.PAGE_FROM) Integer from,
             @Positive @RequestParam(defaultValue = Constants.PAGE_SIZE) Integer size,
             HttpServletRequest request) {
-        return eventService.getEventsByPublic(text, categories, paid, rangeStart, rangeEnd, onlyAvailable,
-                sort, from, size, request);
+        return ResponseEntity.ok().body(eventService.getEventsByPublic(text, categories, paid, rangeStart, rangeEnd, onlyAvailable,
+                sort, from, size, request));
     }
 
 }
