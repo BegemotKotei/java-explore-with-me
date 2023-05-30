@@ -68,7 +68,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<ParticipationRequestDto> getAllUsersRequests(Long userId) {
         log.info("Пользователь с ID = {} запросил свои заявки на участия в мероприятиях.", userId);
-        usersService.isUserPresent(userId);
+        usersService.checkIsUserPresent(userId);
         return RequestMapper.INSTANT.toParticipationRequestDto(
                 requestRepository.findAllByRequesterId(userId));
     }
@@ -77,7 +77,7 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     public ParticipationRequestDto cancelRequestByRequester(Long userId, Long requestId) {
         log.info("Пользователь с ID = {} отменяет запрос на участие с ID = {}.", userId, requestId);
-        usersService.isUserPresent(userId);
+        usersService.checkIsUserPresent(userId);
         Request request = getRequestById(requestId);
         if (!request.getRequester().getId().equals(userId)) {
             log.error("Попытка отмены чужой регистрации на мероприятии пользователем с ID = {}.", userId);

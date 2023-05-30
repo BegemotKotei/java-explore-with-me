@@ -34,8 +34,8 @@ public class CategoryPubServiceImpl implements CategoryPubService {
         Page<Category> pageCategory = categoryRepository.getAllCategoriesById(pageRequest);
         List<Category> requests = pageCategory.getContent();
         List<CategoryDto> requestsDto = requests.stream()
-                    .map(request -> CategoryMapper.INSTANT.toCategoryDto(request))
-                    .collect(Collectors.toList());
+                .map(request -> CategoryMapper.INSTANT.toCategoryDto(request))
+                .collect(Collectors.toList());
         return requestsDto;
     }
 

@@ -85,7 +85,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void isUserPresent(Long userId) {
+    public void checkIsUserPresent(Long userId) {
         usersRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("Пользователь с ID = " + userId + " не найден.")
         );

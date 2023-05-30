@@ -56,7 +56,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
         Optional.ofNullable(events).ifPresent(compilationForUpdate::setEvents);
         Compilation compilation = compilationRepository.save(CompilationMapper.INSTANT.toCompilation(compilationForUpdate, events));
         log.debug("Администратор обновил подборку \"{}\" с ID = {}.", compilation.getTitle(), compilation.getId());
-        return CompilationMapper.INSTANT.toCompilationDto(compilation);
+            return CompilationMapper.INSTANT.toCompilationDto(compilation);
     }
 
     @Override

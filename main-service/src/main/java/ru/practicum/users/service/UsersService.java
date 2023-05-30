@@ -18,6 +18,6 @@ public interface UsersService {
 
     boolean isUserPresentByEmail(String email);
 
-    void isUserPresent(Long userId);
+    void checkIsUserPresent(Long userId);
 
 }

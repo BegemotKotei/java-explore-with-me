@@ -52,6 +52,7 @@ public class EventUtils {
         switch (eventStateAction) {
             case PUBLISH_EVENT:
                 event.setState(EventState.PUBLISHED);
+                event.setPublishedOn(LocalDateTime.now());
                 break;
             case SEND_TO_REVIEW:
                 event.setState(EventState.PENDING);

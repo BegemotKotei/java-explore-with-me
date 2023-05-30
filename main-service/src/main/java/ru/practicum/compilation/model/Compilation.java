@@ -1,12 +1,10 @@
 package ru.practicum.compilation.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.event.model.Event;
-
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
