@@ -36,7 +36,7 @@ public class CompilationPubServiceImpl implements CompilationPubService {
     public List<CompilationDto> getComplicationsPublic(@Nullable Boolean pinned, Integer from, Integer size) {
         int page = from / size;
         PageRequest pageRequest = PageRequest.of(page, size);
-        log.info("Выгрузка списка подборок с параметрами: pinned = {}, size={}, from={}.",pinned, size, page);
+        log.info("Выгрузка списка подборок с параметрами: pinned = {}, size={}, from={}.", pinned, size, page);
         Page<Compilation> pageCompilation;
         if (pinned != null) {
             pageCompilation = compilationRepository.findAllByPinned(pinned, pageRequest);

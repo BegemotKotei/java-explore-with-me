@@ -2,7 +2,10 @@ package ru.practicum.event.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.micrometer.core.lang.Nullable;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.practicum.DateConstants;
 import ru.practicum.event.dto.location.LocationDto;
 import ru.practicum.event.enums.EventStateAction;

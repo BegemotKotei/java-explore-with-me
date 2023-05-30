@@ -43,10 +43,6 @@ public class CommentUtils {
         if (!event.getState().equals(EventState.PUBLISHED)) {
             throw new ConflictException("Нельзя оставлять комментарий к неопубликованным мероприятиям.");
         }
-        /* Восстановить проверку после сдачи проекта
-        if (!event.getState().equals(EventState.PUBLISHED) || event.getEventDate().isAfter(LocalDateTime.now())) {
-            throw new ConflictException("Нельзя оставлять комментарий к неопубликованным или не прошедшим мероприятиям.");
-        }*/
     }
 
     public void checkIfUserIsOwnerComment(Comment comment, Long userId) {

@@ -100,7 +100,7 @@ public class EventPrivServiceImpl implements EventPrivService {
     public List<EventShortDto> getAllUsersEvents(Integer from, Integer size, Long userId) {
         Integer page = from / size;
         PageRequest pageRequest = PageRequest.of(page, size);
-        log.info("Выгрузка списка мероприятий для пользователя с ID = {} с параметрами: size={}, from={}.",userId, size, page);
+        log.info("Выгрузка списка мероприятий для пользователя с ID = {} с параметрами: size={}, from={}.", userId, size, page);
         Page<Event> pageEvents = eventRepository.getAllEventsByUserId(userId, pageRequest);
         List<Event> requests = pageEvents.getContent();
         List<EventShortDto> requestsDto = EventMapper.INSTANT.toEventShortDto(requests);
@@ -145,7 +145,7 @@ public class EventPrivServiceImpl implements EventPrivService {
         if (requests.getStatus().equals(RequestStatus.CONFIRMED)) {
             int freePlaces = event.getParticipantLimit() - event.getParticipants().size();
             int count = 0;
-            for (Request request: requestsList) {
+            for (Request request : requestsList) {
                 checkRequestBeforeUpdate(event, request);
                 log.info("Обработка запроса с ID = {}.", request.getId());
                 if (freePlaces != count) {
@@ -161,7 +161,7 @@ public class EventPrivServiceImpl implements EventPrivService {
                 log.debug("Статус запроса с ID = {} на \"{}\".", request.getId(), request.getStatus());
             }
         } else {
-            for (Request request: requestsList) {
+            for (Request request : requestsList) {
                 checkRequestBeforeUpdate(event, request);
                 log.info("Обработка запроса с ID = {}.", request.getId());
                 request.setStatus(RequestStatus.REJECTED);

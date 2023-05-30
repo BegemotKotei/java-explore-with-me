@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 import ru.practicum.DateConstants;
 import ru.practicum.event.dto.location.LocationDto;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,7 +24,8 @@ public class NewEventDto {
     @Size(min = 20, max = 2000)
     private String annotation;
 
-    @NotNull @Positive
+    @NotNull
+    @Positive
     private Long category;
 
     @NotBlank
