@@ -2,6 +2,7 @@ package ru.practicum.category.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,17 +29,17 @@ public class CategoryAdminController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDto createCategory(
+    public ResponseEntity<CategoryDto> createCategory(
             @Valid @RequestBody NewCategoryDto newCategory) {
-        return categoryAdminService.createCategory(newCategory);
+        return ResponseEntity.ok().body(categoryAdminService.createCategory(newCategory));
     }
 
     @PatchMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
-    public CategoryDto patchCategoryById(
+    public ResponseEntity<CategoryDto> patchCategoryById(
             @Valid @RequestBody NewCategoryDto updatedCategory,
             @Positive @PathVariable Long catId) {
-        return categoryAdminService.patchCategoryById(catId, updatedCategory);
+        return ResponseEntity.ok().body(categoryAdminService.patchCategoryById(catId, updatedCategory));
     }
 
     @DeleteMapping("/{catId}")

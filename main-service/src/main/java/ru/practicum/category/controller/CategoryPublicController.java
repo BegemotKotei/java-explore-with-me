@@ -2,6 +2,7 @@ package ru.practicum.category.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,16 +25,16 @@ public class CategoryPublicController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CategoryDto> getAllCategories(
+    public ResponseEntity<List<CategoryDto>> getAllCategories(
             @PositiveOrZero @RequestParam(value = "from", defaultValue = "0") Integer from,
             @Positive @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        return categoryPubService.getAllCategories(from, size);
+        return ResponseEntity.ok().body(categoryPubService.getAllCategories(from, size));
     }
 
     @GetMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
-    public CategoryDto getAllCategories(
+    public ResponseEntity<CategoryDto> getAllCategories(
             @Positive @PathVariable Long catId) {
-        return categoryPubService.getCategoryById(catId);
+        return ResponseEntity.ok().body(categoryPubService.getCategoryById(catId));
     }
 }
