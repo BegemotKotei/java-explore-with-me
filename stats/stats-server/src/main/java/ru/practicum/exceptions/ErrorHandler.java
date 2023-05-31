@@ -19,7 +19,7 @@ public class ErrorHandler {
     @ResponseBody
     public ErrorResponse onConstraintViolationException(BadRequest e) {
         return new ErrorResponse(HttpStatus.BAD_REQUEST,
-                "Некорректный запрос.",
+                "Invalid request.",
                 e.getMessage(),
                 LocalDateTime.now());
     }

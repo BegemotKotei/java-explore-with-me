@@ -20,34 +20,34 @@ public class CommentUtils {
     private final CommentRepository commentRepository;
 
     public Comment getCommentById(Long commentId) {
-        log.info("Получение комментария с ID = {}.", commentId);
+        log.info("Getting a comment with ID = {}.", commentId);
         return commentRepository.findById(commentId).orElseThrow(
-                () -> new NotFoundException("Комментарий с ID = " + commentId + " не найден.")
+                () -> new NotFoundException("Comment with ID = " + commentId + " not found.")
         );
     }
 
     public void checkCommentIsPresent(Long commentId) {
-        log.info("Получение комментария с ID = {}.", commentId);
+        log.info("Getting a comment with ID = {}.", commentId);
         commentRepository.findById(commentId).orElseThrow(
-                () -> new NotFoundException("Комментарий с ID = " + commentId + " не найден.")
+                () -> new NotFoundException("Comment with ID = " + commentId + " not found.")
         );
     }
 
     public void checkCanUserAddComment(User user, Event event) {
         if (event.getInitiator().getId().equals(user.getId())) {
-            throw new ConflictException("Нельзя оставлять комментарий на своё мероприятие.");
+            throw new ConflictException("You cannot leave a comment on your event.");
         }
         if (!event.getParticipants().contains(user)) {
-            throw new ConflictException("Нельзя оставлять комментарий на мероприятие, которое вы не посещали.");
+            throw new ConflictException("You cannot leave a comment on an event that you have not attended.");
         }
         if (!event.getState().equals(EventState.PUBLISHED)) {
-            throw new ConflictException("Нельзя оставлять комментарий к неопубликованным мероприятиям.");
+            throw new ConflictException("You cannot leave comments on unpublished events.");
         }
     }
 
     public void checkIfUserIsOwnerComment(Comment comment, Long userId) {
         if (!comment.getUser().getId().equals(userId)) {
-            throw new ConflictException("Только автор комментария может его менять или удалять.");
+            throw new ConflictException("Only the author of the comment can change or delete it.");
         }
     }
 

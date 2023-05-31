@@ -31,7 +31,7 @@ public class StatisticServiceImpl implements StatisticService {
         boolean isUnique = params.containsKey("unique") ? Boolean.parseBoolean(params.get("unique")) : false;
         uris = uris == null ? new HashSet<>() : uris;
         if (stringToLocalDate(params.get("start")).isAfter(stringToLocalDate(params.get("end")))) {
-            throw new BadRequest("Некорректно заданы даты начала и конца. Start не может быть после end.");
+            throw new BadRequest("The start and end dates are set incorrectly. Start cannot be after end.");
         }
         if (uris.size() > 0 && !isUnique) {
             return statisticRepository.getUrisViewsFromSet(uris, stringToLocalDate(params.get("start")),

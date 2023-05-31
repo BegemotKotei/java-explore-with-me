@@ -51,7 +51,7 @@ public class EventPublicController {
         rangeStart = rangeStart == null ? LocalDateTime.now() : rangeStart;
         rangeEnd = rangeEnd == null ? rangeStart.plusYears(100) : rangeEnd;
         if (rangeStart.isAfter(rangeEnd)) {
-            throw new BadRequestException("Неправильно задан временной отрезок. (rangeStart is after rangeEnd).");
+            throw new BadRequestException("The time interval is set incorrectly. (rangeStart is after rangeEnd).");
         }
         return eventService.getEventsByPublic(
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);

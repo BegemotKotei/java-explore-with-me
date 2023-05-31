@@ -26,7 +26,7 @@ public class ErrorHandler {
     @ResponseBody
     public ErrorResponse onConstraintViolationException(ConstraintViolationException e) {
         return new ErrorResponse(HttpStatus.BAD_REQUEST,
-                "Невалидные данные.",
+                "Invalid data.",
                 e.getMessage(),
                 LocalDateTime.now());
     }
@@ -56,7 +56,7 @@ public class ErrorHandler {
     @ResponseBody
     public ErrorResponse onValidationException(ValidationException e) {
         return new ErrorResponse(HttpStatus.FORBIDDEN,
-                "Событие не удовлетворяет правилам создания.",
+                "The event does not meet the creation rules.",
                 e.getMessage(),
                 LocalDateTime.now());
     }
@@ -67,7 +67,7 @@ public class ErrorHandler {
     @ResponseBody
     public ErrorResponse onMethodNotAllowedException(HttpRequestMethodNotSupportedException e) {
         return new ErrorResponse(HttpStatus.BAD_REQUEST,
-                "Такого метода нет.",
+                "There is no such method.",
                 e.getMessage(),
                 LocalDateTime.now());
     }

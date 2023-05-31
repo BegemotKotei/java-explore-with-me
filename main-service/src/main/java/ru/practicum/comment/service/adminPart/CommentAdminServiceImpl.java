@@ -34,22 +34,22 @@ public class CommentAdminServiceImpl implements CommentAdminService {
     @Override
     @Transactional
     public void deleteComment(Long commentId) {
-        log.info("Администратор удаляет комментарий с ID = {}.", commentId);
+        log.info("The administrator deletes the comment with ID = {}.", commentId);
         commentUtils.checkCommentIsPresent(commentId);
         commentRepository.deleteById(commentId);
-        log.debug("Администратор удалил комментарий с ID = {}.", commentId);
+        log.debug("The administrator deleted the comment with ID = {}.", commentId);
     }
 
     @Override
     public CommentDto getCommentById(Long commentId) {
-        log.info("Администратор выгружает комментарий с ID = {}.", commentId);
+        log.info("The administrator uploads a comment with ID = {}.", commentId);
         return CommentMapper.INSTANT.toCommentDto(
                 commentUtils.getCommentById(commentId));
     }
 
     @Override
     public List<CommentDto> getComments(Long userId, Long eventId, Pageable pageable) {
-        log.info("Администратор выгружает комментарий по параметрам: userId = {}, eventId = {}.", userId, eventId);
+        log.info("The administrator uploads a comment according to the parameters: userId = {}, eventId = {}.", userId, eventId);
         List<Comment> comments;
         if (userId == null && eventId == null) {
             comments = commentRepository.findAll(pageable).getContent();

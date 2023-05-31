@@ -38,7 +38,7 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Override
     public List<EventFullDto> getAllEventsByAdmin(
             Set<Long> users, Set<EventState> states, Set<Long> categories, LocalDateTime rangeStart, LocalDateTime rangeEnd, Integer from, Integer size) {
-        log.info("Выгрузка списка мероприятий администратором с параметрами: " +
+        log.info("Uploading a list of events by the administrator with parameters: " +
                         "users = {}, sates = {}, categories = {}, rangeStart = {}, rangeEnd = {}, from = {}, size = {}.",
                 users, states, categories, rangeStart, rangeEnd, from, size);
         BooleanExpression byUsers;
@@ -75,11 +75,11 @@ public class EventAdminServiceImpl implements EventAdminService {
             categoryUtils.checkCategoryPresent(updateEvent.getCategory());
         }
         Event eventForUpdate = eventUtils.getEventById(eventId);
-        log.info("Администратор обновляет мероприятие с ID = {}.", eventId);
+        log.info("The administrator updates the event with ID = {}.", eventId);
         if (updateEvent.getEventDate() != null) {
             eventUtils.checkIfEvenDateCorrect(updateEvent.getEventDate());
         }
-        log.debug("Администратор обновил мероприятие с ID = {}.", eventId);
+        log.debug("The administrator has updated the event with ID = {}.", eventId);
         return client.setViewsEventFullDto(
                 EventMapper.INSTANT.toEventFullDto(
                         eventRepository.save(
