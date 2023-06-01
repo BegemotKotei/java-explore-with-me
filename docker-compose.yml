@@ -4,6 +4,7 @@ services:
     build: stats/stats-server
     image: stats-server
     container_name: stats-server
+    restart: on-failure
     ports:
       - "9090:9090"
     depends_on:
@@ -31,6 +32,7 @@ services:
     build: main-service
     image: ewm-service
     container_name: ewm-service
+    restart: on-failure
     ports:
       - "8080:8080"
     depends_on:
