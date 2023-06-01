@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository(value = "dbRequestRepository")
 public interface RequestRepository extends JpaRepository<Request, Long> {
+
     List<Request> findAllByRequesterId(Long userId);
 
     List<Request> findAllByEventId(Long eventId);

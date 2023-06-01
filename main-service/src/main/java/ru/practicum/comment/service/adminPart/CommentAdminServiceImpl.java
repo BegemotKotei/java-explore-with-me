@@ -12,6 +12,8 @@ import ru.practicum.comment.model.CommentMapper;
 import ru.practicum.comment.model.QComment;
 import ru.practicum.comment.repository.CommentRepository;
 import ru.practicum.comment.utils.CommentUtils;
+import ru.practicum.event.utils.EventUtils;
+import ru.practicum.users.service.UsersService;
 
 import java.util.List;
 
@@ -20,6 +22,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CommentAdminServiceImpl implements CommentAdminService {
+
+    private final UsersService usersService;
+
+    private final EventUtils eventUtils;
 
     private final CommentRepository commentRepository;
 
