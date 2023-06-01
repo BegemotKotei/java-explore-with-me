@@ -1,7 +1,6 @@
 version: '3.8'
 services:
   stats-server:
-    restart: on-failure
     build: stats/stats-server
     image: stats-server
     container_name: stats-server
@@ -29,7 +28,6 @@ services:
       - POSTGRES_DB=exploreWithMeStatDb
 
   ewm-service:
-    restart: on-failure
     build: main-service
     image: ewm-service
     container_name: ewm-service
