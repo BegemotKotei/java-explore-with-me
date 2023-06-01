@@ -16,7 +16,7 @@ import ru.practicum.request.model.Request;
 import ru.practicum.request.model.RequestMapper;
 import ru.practicum.request.repository.RequestRepository;
 import ru.practicum.users.model.User;
-import ru.practicum.users.service.UsersService;
+import ru.practicum.users.repository.UsersRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,8 +30,7 @@ public class RequestServiceImpl implements RequestService {
 
     private final RequestRepository requestRepository;
 
-    private final UsersService usersService;
-
+    private final UsersRepository usersRepository;
 
     private final EventUtils eventUtils;
 
@@ -41,7 +40,7 @@ public class RequestServiceImpl implements RequestService {
     public ParticipationRequestDto createRequest(Long userId, Long eventId) {
         log.info("Creating a request to participate in an event with ID = {} from a user with ID = {}.", eventId, userId);
         Event event = eventUtils.getEventById(eventId);
-        User user = usersService.getUserById(userId);
+        User user = usersRepository.getUserById(userId);
         Boolean isUnlimited = event.getParticipantLimit().equals(0);
         checkUserAndEvent(user, event, isUnlimited);
         Request participantsRequests = requestRepository.findFirstByRequesterIdAndEventId(userId, eventId);
@@ -68,7 +67,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<ParticipationRequestDto> getAllUsersRequests(Long userId) {
         log.info("A user with ID = {} has requested their applications to participate in events.", userId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         return RequestMapper.INSTANT.toParticipationRequestDto(
                 requestRepository.findAllByRequesterId(userId));
     }
@@ -77,7 +76,7 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     public ParticipationRequestDto cancelRequestByRequester(Long userId, Long requestId) {
         log.info("The user with ID = {} cancels the participation request with ID = {}.", userId, requestId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         Request request = getRequestById(requestId);
         if (!request.getRequester().getId().equals(userId)) {
             log.error("Attempt to cancel someone else's registration at the event by a user with ID = {}.", userId);

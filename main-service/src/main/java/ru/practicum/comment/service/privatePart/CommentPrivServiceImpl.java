@@ -16,7 +16,7 @@ import ru.practicum.comment.utils.CommentUtils;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.utils.EventUtils;
 import ru.practicum.users.model.User;
-import ru.practicum.users.service.UsersService;
+import ru.practicum.users.repository.UsersRepository;
 
 import java.util.List;
 
@@ -32,14 +32,15 @@ public class CommentPrivServiceImpl implements CommentPrivService {
 
     private final EventUtils eventUtils;
 
-    private final UsersService usersService;
+
+    private final UsersRepository usersRepository;
 
     @Override
     @Transactional
     public CommentDto addComment(Long userId, Long eventId, NewCommentDto newCommentDto) {
         log.info("A user with ID = {} leaves a comment on the event with ID = {}.", userId, eventId);
         Event event = eventUtils.getEventById(eventId);
-        User user = usersService.getUserById(userId);
+        User user = usersRepository.getUserById(userId);
         commentUtils.checkCanUserAddComment(user, event);
         newCommentDto.setUserId(userId);
         newCommentDto.setEventId(eventId);
@@ -53,7 +54,7 @@ public class CommentPrivServiceImpl implements CommentPrivService {
     public CommentDto updateComment(Long userId, Long commentId, UpdateCommentDto updateCommentDto) {
         log.info("A user with ID = {} updates a comment with ID = {}.", userId, commentId);
         commentUtils.checkCommentIsPresent(commentId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         Comment commentForUpdate = commentUtils.getCommentById(commentId);
         commentUtils.checkIfUserIsOwnerComment(commentForUpdate, userId);
         commentForUpdate.setComment(updateCommentDto.getComment());
@@ -67,7 +68,7 @@ public class CommentPrivServiceImpl implements CommentPrivService {
     public void deleteComment(Long userId, Long commentId) {
         log.info("A user with ID = {} deletes a comment with ID = {}.", userId, commentId);
         commentUtils.checkCommentIsPresent(commentId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         commentUtils.checkIfUserIsOwnerComment(commentUtils.getCommentById(commentId), userId);
         commentRepository.deleteById(commentId);
         log.debug("A user with ID = {} deleted a comment with ID = {}.", userId, commentId);
@@ -77,7 +78,7 @@ public class CommentPrivServiceImpl implements CommentPrivService {
     public CommentDto getCommentById(Long userId, Long commentId) {
         log.info("A user with ID = {} uploads his comment with ID = {}.", userId, commentId);
         commentUtils.checkCommentIsPresent(commentId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         return CommentMapper.INSTANT.toCommentDto(
                 commentUtils.getCommentById(commentId));
     }
@@ -85,7 +86,7 @@ public class CommentPrivServiceImpl implements CommentPrivService {
     @Override
     public List<CommentDto> getAllComments(Long userId, PageRequest pageable) {
         log.info("A user with ID = {} uploads his comments.", userId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         Page<Comment> pageComment = commentRepository.findAllByUserId(userId, pageable);
         List<Comment> comments = pageComment.getContent();
         return CommentMapper.INSTANT.toCommentsDto(comments);

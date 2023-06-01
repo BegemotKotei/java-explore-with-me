@@ -28,7 +28,7 @@ import ru.practicum.request.model.Request;
 import ru.practicum.request.model.RequestMapper;
 import ru.practicum.request.repository.RequestRepository;
 import ru.practicum.users.model.User;
-import ru.practicum.users.service.UsersService;
+import ru.practicum.users.repository.UsersRepository;
 
 import java.util.List;
 
@@ -42,8 +42,7 @@ public class EventPrivServiceImpl implements EventPrivService {
     private final EventRepository eventRepository;
 
 
-    private final UsersService usersService;
-
+    private final UsersRepository usersRepository;
 
     private final RequestRepository requestRepository;
 
@@ -58,7 +57,7 @@ public class EventPrivServiceImpl implements EventPrivService {
     public EventFullDto createEvent(Long userId, NewEventDto newEvent) {
         log.info("Пользователь с ID = {} создает мероприятие \"{}\".", userId, newEvent.getTitle());
         eventUtils.checkIfEvenDateCorrect(newEvent.getEventDate());
-        User user = usersService.getUserById(userId);
+        User user = usersRepository.getUserById(userId);
         CategoryDto categoryDto = categoryUtils.getCategoryById(newEvent.getCategory());
         Event event = EventMapper.INSTANT.toEvent(newEvent);
         event.setInitiator(user);
@@ -78,7 +77,7 @@ public class EventPrivServiceImpl implements EventPrivService {
         }
         Event eventForUpdate = eventUtils.getEventById(eventId);
         log.info("Пользователь с ID = {} обновляет мероприятие с ID = {}.", userId, eventId);
-        User user = usersService.getUserById(userId);
+        User user = usersRepository.getUserById(userId);
         eventUtils.checkIfEventCanBeUpdated(updateEvent, eventForUpdate, user);
         log.debug("Пользователь с ID = {} обновил мероприятие с ID = {}.", userId, eventId);
         return client.setViewsEventFullDto(
@@ -90,7 +89,7 @@ public class EventPrivServiceImpl implements EventPrivService {
     @Override
     public EventFullDto getFullEventById(Long userId, Long eventId) {
         log.info("Пользователь с ID = {} запросил информации о мероприятии с ID = {}.", userId, eventId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         return client.setViewsEventFullDto(
                 EventMapper.INSTANT.toEventFullDto(
                         eventUtils.getEventById(eventId)));
@@ -110,7 +109,7 @@ public class EventPrivServiceImpl implements EventPrivService {
     @Override
     public List<ParticipationRequestDto> getRequestsOnEvent(Long userId, Long eventId) {
         log.info("Выгрузка списка запросов на участие в мероприятии с ID = {}.", eventId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         Event event = eventUtils.getEventById(eventId);
         if (!event.getInitiator().getId().equals(userId)) {
             throw new BadRequestException("Только организатор может просматривать список запросов на участие.");
@@ -125,7 +124,7 @@ public class EventPrivServiceImpl implements EventPrivService {
     public EventRequestStatusUpdateResult processWithEventsRequests(
             Long userId, Long eventId, EventRequestStatusUpdateRequest requests) {
         log.info("Пользовать с ID = {} обрабатывает заявки на мероприятие с ID = {}.", userId, eventId);
-        usersService.checkIsUserPresent(userId);
+        usersRepository.checkIsUserPresent(userId);
         Event event = eventUtils.getEventById(eventId);
         if (!event.getInitiator().getId().equals(userId)) {
             throw new BadRequestException("Только организатор может обрабатывать список запросов на участие.");
