@@ -1,10 +1,10 @@
 version: '3.8'
 services:
   stats-server:
+    restart: on-failure
     build: stats/stats-server
     image: stats-server
     container_name: stats-server
-    restart: on-failure
     ports:
       - "9090:9090"
     depends_on:
@@ -29,10 +29,10 @@ services:
       - POSTGRES_DB=exploreWithMeStatDb
 
   ewm-service:
+    restart: on-failure
     build: main-service
     image: ewm-service
     container_name: ewm-service
-    restart: on-failure
     ports:
       - "8080:8080"
     depends_on:
