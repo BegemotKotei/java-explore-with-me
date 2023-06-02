@@ -72,11 +72,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public UserDto getUserById(Long userId) {
         log.info("Getting a user by ID = {}.", userId);
-        return usersRepository.findById(userId).orElseThrow(
+        return UserMapper.INSTANT.toUserDto(usersRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("User with ID = " + userId + " not found.")
-        );
+        ));
     }
 
     @Override

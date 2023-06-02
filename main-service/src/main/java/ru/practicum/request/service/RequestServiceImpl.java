@@ -92,10 +92,10 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public Request getRequestById(Long requestId) {
-        return requestRepository.findById(requestId).orElseThrow(
+    public ParticipationRequestDto getRequestById(Long requestId) {
+        return RequestMapper.INSTANT.toParticipationRequestDto(requestRepository.findById(requestId).orElseThrow(
                 () -> new NotFoundException("Request for participation with ID = " + requestId + " not found.")
-        );
+        ));
     }
 
     private void checkUserAndEvent(User user, Event event, Boolean isUnlimited) {
