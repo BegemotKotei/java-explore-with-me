@@ -1,4 +1,4 @@
-package ru.practicum.event.model.service.publicPart;
+package ru.practicum.event.service.publicPart;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;

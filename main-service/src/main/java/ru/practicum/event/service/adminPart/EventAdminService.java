@@ -1,4 +1,4 @@
-package ru.practicum.event.model.service.adminPart;
+package ru.practicum.event.service.adminPart;
 
 
 import ru.practicum.event.dto.EventFullDto;
