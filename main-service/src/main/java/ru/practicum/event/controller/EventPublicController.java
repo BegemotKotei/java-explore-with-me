@@ -14,7 +14,7 @@ import ru.practicum.DateConstants;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.enums.EventSort;
-import ru.practicum.event.service.publicPart.EventPubService;
+import ru.practicum.event.model.service.publicPart.EventPubService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;

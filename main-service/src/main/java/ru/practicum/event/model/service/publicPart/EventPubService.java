@@ -1,4 +1,4 @@
-package ru.practicum.event.service.publicPart;
+package ru.practicum.event.model.service.publicPart;
 
 
 import io.micrometer.core.lang.Nullable;

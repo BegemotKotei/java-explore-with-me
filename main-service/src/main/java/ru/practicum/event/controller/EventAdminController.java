@@ -15,7 +15,7 @@ import ru.practicum.DateConstants;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.UpdateEventRequest;
 import ru.practicum.event.enums.EventState;
-import ru.practicum.event.service.adminPart.EventAdminService;
+import ru.practicum.event.model.service.adminPart.EventAdminService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;

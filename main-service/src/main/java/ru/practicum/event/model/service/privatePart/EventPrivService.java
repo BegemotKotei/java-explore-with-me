@@ -1,4 +1,4 @@
-package ru.practicum.event.service.privatePart;
+package ru.practicum.event.model.service.privatePart;
 
 
 import ru.practicum.event.dto.EventFullDto;

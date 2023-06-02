@@ -15,7 +15,7 @@ public interface UsersService {
 
     void deleteUser(Long userId);
 
-    UserDto getUserById(Long userId);
+    User getUserById(Long userId);
 
     boolean isUserPresentByEmail(String email);
 
