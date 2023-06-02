@@ -71,7 +71,6 @@ public class UsersServiceImpl implements UsersService {
         usersRepository.delete(getUserById(userId));
     }
 
-    @Override
     public User getUserById(Long userId) {
         log.info("Getting a user by ID = {}.", userId);
         return usersRepository.findById(userId).orElseThrow(
