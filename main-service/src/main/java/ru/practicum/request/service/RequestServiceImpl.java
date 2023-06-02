@@ -82,20 +82,20 @@ public class RequestServiceImpl implements RequestService {
         usersRepository.findById(userId).orElseThrow(
                 () -> new NotFoundException("User with ID = " + userId + " not found.")
         );
-        Request request = getRequestById(requestId);
-        if (!request.getRequester().getId().equals(userId)) {
+        ParticipationRequestDto request = getRequestById(requestId);
+        if (!request.getId().equals(userId)) {
             log.error("Attempt to cancel someone else's registration at the event by a user with ID = {}.", userId);
             throw new BadRequestException("You cannot cancel someone else's application.");
         }
         request.setStatus(RequestStatus.CANCELED);
-        return RequestMapper.INSTANT.toParticipationRequestDto(request);
+        return request;
     }
 
     @Override
-    public Request getRequestById(Long requestId) {
-        return requestRepository.findById(requestId).orElseThrow(
+    public ParticipationRequestDto getRequestById(Long requestId) {
+        return RequestMapper.INSTANT.toParticipationRequestDto(requestRepository.findById(requestId).orElseThrow(
                 () -> new NotFoundException("Request for participation with ID = " + requestId + " not found.")
-        );
+        ));
     }
 
     private void checkUserAndEvent(User user, Event event, Boolean isUnlimited) {

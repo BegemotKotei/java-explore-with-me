@@ -14,6 +14,6 @@ public interface RequestService {
 
     ParticipationRequestDto cancelRequestByRequester(Long userId, Long requestId);
 
-    Request getRequestById(Long requestId);
+    ParticipationRequestDto getRequestById(Long requestId);
 
 }
