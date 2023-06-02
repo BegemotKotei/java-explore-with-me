@@ -84,11 +84,4 @@ public class UsersServiceImpl implements UsersService {
         return usersRepository.findFirstByEmail(email) != null;
     }
 
-    @Override
-    public void checkIsUserPresent(Long userId) {
-        usersRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException("User with ID = " + userId + " not found.")
-        );
-    }
-
 }

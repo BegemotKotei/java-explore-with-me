@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ApiError.exception.NotFoundException;
 import ru.practicum.comment.dto.CommentDto;
 import ru.practicum.comment.dto.NewCommentDto;
 import ru.practicum.comment.dto.UpdateCommentDto;
@@ -53,7 +54,9 @@ public class CommentPrivServiceImpl implements CommentPrivService {
     public CommentDto updateComment(Long userId, Long commentId, UpdateCommentDto updateCommentDto) {
         log.info("A user with ID = {} updates a comment with ID = {}.", userId, commentId);
         commentUtils.checkCommentIsPresent(commentId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         Comment commentForUpdate = commentUtils.getCommentById(commentId);
         commentUtils.checkIfUserIsOwnerComment(commentForUpdate, userId);
         commentForUpdate.setComment(updateCommentDto.getComment());
@@ -67,7 +70,9 @@ public class CommentPrivServiceImpl implements CommentPrivService {
     public void deleteComment(Long userId, Long commentId) {
         log.info("A user with ID = {} deletes a comment with ID = {}.", userId, commentId);
         commentUtils.checkCommentIsPresent(commentId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         commentUtils.checkIfUserIsOwnerComment(commentUtils.getCommentById(commentId), userId);
         commentRepository.deleteById(commentId);
         log.debug("A user with ID = {} deleted a comment with ID = {}.", userId, commentId);
@@ -77,7 +82,9 @@ public class CommentPrivServiceImpl implements CommentPrivService {
     public CommentDto getCommentById(Long userId, Long commentId) {
         log.info("A user with ID = {} uploads his comment with ID = {}.", userId, commentId);
         commentUtils.checkCommentIsPresent(commentId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         return CommentMapper.INSTANT.toCommentDto(
                 commentUtils.getCommentById(commentId));
     }
@@ -85,7 +92,9 @@ public class CommentPrivServiceImpl implements CommentPrivService {
     @Override
     public List<CommentDto> getAllComments(Long userId, PageRequest pageable) {
         log.info("A user with ID = {} uploads his comments.", userId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         Page<Comment> pageComment = commentRepository.findAllByUserId(userId, pageable);
         List<Comment> comments = pageComment.getContent();
         return CommentMapper.INSTANT.toCommentsDto(comments);

@@ -68,7 +68,9 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<ParticipationRequestDto> getAllUsersRequests(Long userId) {
         log.info("A user with ID = {} has requested their applications to participate in events.", userId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         return RequestMapper.INSTANT.toParticipationRequestDto(
                 requestRepository.findAllByRequesterId(userId));
     }
@@ -77,7 +79,9 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     public ParticipationRequestDto cancelRequestByRequester(Long userId, Long requestId) {
         log.info("The user with ID = {} cancels the participation request with ID = {}.", userId, requestId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         Request request = getRequestById(requestId);
         if (!request.getRequester().getId().equals(userId)) {
             log.error("Attempt to cancel someone else's registration at the event by a user with ID = {}.", userId);

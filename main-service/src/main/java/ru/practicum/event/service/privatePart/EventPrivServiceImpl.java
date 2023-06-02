@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ApiError.exception.BadRequestException;
 import ru.practicum.ApiError.exception.ConflictException;
+import ru.practicum.ApiError.exception.NotFoundException;
 import ru.practicum.category.dto.CategoryDto;
 import ru.practicum.category.model.CategoryMapper;
 import ru.practicum.category.utils.CategoryUtils;
@@ -88,7 +89,9 @@ public class EventPrivServiceImpl implements EventPrivService {
     @Override
     public EventFullDto getFullEventById(Long userId, Long eventId) {
         log.info("A user with ID = {} requested information about an event with ID = {}.", userId, eventId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         return client.setViewsEventFullDto(
                 EventMapper.INSTANT.toEventFullDto(
                         eventUtils.getEventById(eventId)));
@@ -108,7 +111,9 @@ public class EventPrivServiceImpl implements EventPrivService {
     @Override
     public List<ParticipationRequestDto> getRequestsOnEvent(Long userId, Long eventId) {
         log.info("Uploading a list of requests to participate in an event with an ID = {}.", eventId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         Event event = eventUtils.getEventById(eventId);
         if (!event.getInitiator().getId().equals(userId)) {
             throw new BadRequestException("Only the organizer can view the list of participation requests.");
@@ -123,7 +128,9 @@ public class EventPrivServiceImpl implements EventPrivService {
     public EventRequestStatusUpdateResult processWithEventsRequests(
             Long userId, Long eventId, EventRequestStatusUpdateRequest requests) {
         log.info("Use with ID = {} processes event requests with ID = {}.", userId, eventId);
-        usersRepository.checkIsUserPresent(userId);
+        usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
+        );
         Event event = eventUtils.getEventById(eventId);
         if (!event.getInitiator().getId().equals(userId)) {
             throw new BadRequestException("Only the organizer can process the list of participation requests.");

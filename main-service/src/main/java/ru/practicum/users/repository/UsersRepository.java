@@ -22,6 +22,4 @@ public interface UsersRepository extends JpaRepository<User, Long> {
 
     User getUserById(Long userId);
 
-    void checkIsUserPresent(Long userId);
-
 }
