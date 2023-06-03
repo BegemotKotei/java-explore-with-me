@@ -25,38 +25,38 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
 
     @Override
     public CategoryDto createCategory(NewCategoryDto newCategory) {
-        log.info("Создание новой категории: {}.", newCategory.getName());
+        log.info("Creating a new category: {}.", newCategory.getName());
         categoryUtils.checkCategoryNameIsBusy(newCategory.getName());
         Category category = categoryRepository.save(
                 CategoryMapper.INSTANT.newCategoryDtoToCategory(newCategory));
-        log.debug("Категория создана. ID = {}.", category.getId());
+        log.debug("The category has been created. ID = {}.", category.getId());
         return CategoryMapper.INSTANT.toCategoryDto(category);
     }
 
     @Override
     public CategoryDto patchCategoryById(Long catId, NewCategoryDto updatedCategory) {
-        log.info("Обновление категории с ID = {}.", catId);
+        log.info("Updating a category with an ID = {}.", catId);
         categoryUtils.checkCategoryPresent(catId);
         Category categoryById = categoryRepository.getCategoryById(catId);
         Category categoryByName = categoryRepository.findFirstByName(updatedCategory.getName());
         if (categoryByName != null) {
             if (!categoryByName.getId().equals(categoryById.getId())) {
-                throw new ConflictException("Категория уже существует.");
+                throw new ConflictException("The category already exists.");
             }
         }
         categoryById.setName(updatedCategory.getName());
         categoryRepository.save(categoryById);
-        log.debug("Категория с ID = {} обновлена.", catId);
+        log.debug("The category with ID = {} has been updated.", catId);
         return CategoryMapper.INSTANT.toCategoryDto(categoryById);
     }
 
     @Override
     public void deleteCategory(Long catId) {
-        log.info("Удаление категории с ID = {}.", catId);
+        log.info("Deleting a category with ID = {}.", catId);
         categoryUtils.checkCategoryPresent(catId);
         categoryUtils.checkCategoryUsing(catId);
         categoryRepository.deleteById(catId);
-        log.debug("Категории с ID = {} удалена.", catId);
+        log.debug("Categories with ID = {} removed.", catId);
     }
 
 }

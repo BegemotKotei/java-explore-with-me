@@ -84,7 +84,7 @@ public enum EventMapper {
 
     public List<EventFullDto> iterableToList(Iterable<Event> events) {
         List<EventFullDto> dtos = new ArrayList<>();
-        for (Event event: events) {
+        for (Event event : events) {
             dtos.add(toEventFullDto(event));
         }
         return dtos;

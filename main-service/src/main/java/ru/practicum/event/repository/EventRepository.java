@@ -17,15 +17,15 @@ public interface EventRepository extends JpaRepository<Event, Long>, QuerydslPre
 
     @Query(value =
             "SELECT * " +
-            "FROM events AS e " +
-            "WHERE e.category_id = ?1 " +
-            "LIMIT 1", nativeQuery = true)
+                    "FROM events AS e " +
+                    "WHERE e.category_id = ?1 " +
+                    "LIMIT 1", nativeQuery = true)
     Event findFirstByCategory(Long catId);
 
     @Query(value =
             "SELECT * " +
-            "FROM events AS e " +
-            "WHERE e.initiator_id = ?1 ", nativeQuery = true)
+                    "FROM events AS e " +
+                    "WHERE e.initiator_id = ?1 ", nativeQuery = true)
     Page<Event> getAllEventsByUserId(Long userId, PageRequest pageRequest);
 
     Event findFirstByIdAndState(Long evenId, EventState state);

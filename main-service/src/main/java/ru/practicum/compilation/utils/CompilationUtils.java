@@ -15,9 +15,9 @@ public class CompilationUtils {
     private final CompilationRepository compilationRepository;
 
     public Compilation getCompilationById(Long compId) {
-        log.info("Получение подборки по ID = {}.", compId);
+        log.info("Getting a collection by ID = {}.", compId);
         return compilationRepository.findById(compId).orElseThrow(
-                () -> new NotFoundException("Подборка с ID = " + compId + " не найдена.")
+                () -> new NotFoundException("Collection with ID = " + compId + " not found.")
         );
     }
 

@@ -30,12 +30,12 @@ public class CategoryPubServiceImpl implements CategoryPubService {
     public List<CategoryDto> getAllCategories(Integer from, Integer size) {
         Integer page = from / size;
         PageRequest pageRequest = PageRequest.of(page, size);
-        log.info("Выгрузка списка категорий с параметрами: size={}, from={}.", size, page);
+        log.info("Uploading a list of categories with parameters: size={}, from={}.", size, page);
         Page<Category> pageCategory = categoryRepository.getAllCategoriesById(pageRequest);
         List<Category> requests = pageCategory.getContent();
         List<CategoryDto> requestsDto = requests.stream()
-                    .map(request -> CategoryMapper.INSTANT.toCategoryDto(request))
-                    .collect(Collectors.toList());
+                .map(request -> CategoryMapper.INSTANT.toCategoryDto(request))
+                .collect(Collectors.toList());
         return requestsDto;
     }
 

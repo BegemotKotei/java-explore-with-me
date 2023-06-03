@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 @Component("dbStatisticRepository")
-public interface StatisticRepository  extends JpaRepository<Hit, Long> {
+public interface StatisticRepository extends JpaRepository<Hit, Long> {
 
-    //Просмотры всех uri (не уникальные).
+    //Просмотры всех uri (не уникальные)
     @Query("SELECT NEW ru.practicum.dto.ViewStats(s.app, s.uri, COUNT(s.ip)) " +
             "FROM Hit AS s " +
             "WHERE s.timestamp BETWEEN :start AND :end " +
@@ -22,7 +22,7 @@ public interface StatisticRepository  extends JpaRepository<Hit, Long> {
     List<ViewStats> getUrisViews(LocalDateTime start, LocalDateTime end);
 
 
-    //Просмотры конкретных uri (не уникальные).
+    //Просмотры конкретных uri (не уникальные)
     @Query("SELECT NEW ru.practicum.dto.ViewStats(s.app, s.uri, COUNT(s.ip)) " +
             "FROM Hit AS s " +
             "WHERE s.timestamp BETWEEN :start AND :end " +
@@ -31,7 +31,7 @@ public interface StatisticRepository  extends JpaRepository<Hit, Long> {
             "ORDER BY COUNT(s.ip) DESC")
     List<ViewStats> getUrisViewsFromSet(Set<String> uris, LocalDateTime start, LocalDateTime end);
 
-    //Просмотры всех uri (уникальные).
+    //Просмотры всех uri (уникальные)
     @Query("SELECT NEW ru.practicum.dto.ViewStats(s.app, s.uri, COUNT(DISTINCT s.ip)) " +
             "FROM Hit s " +
             "WHERE s.timestamp BETWEEN :start AND :end " +
@@ -39,7 +39,7 @@ public interface StatisticRepository  extends JpaRepository<Hit, Long> {
             "ORDER BY COUNT(DISTINCT s.ip) DESC")
     List<ViewStats> getUrisViewsUnique(LocalDateTime start, LocalDateTime end);
 
-    //Просмотры конкретных uri (уникальные).
+    //Просмотры конкретных uri (уникальные)
     @Query("SELECT NEW ru.practicum.dto.ViewStats(s.app, s.uri, COUNT(DISTINCT s.ip)) " +
             "FROM Hit s " +
             "WHERE s.timestamp BETWEEN :start AND :end " +

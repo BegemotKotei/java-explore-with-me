@@ -16,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class EventRequestStatusUpdateRequest {
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private List<Long> requestIds;
 
     @NotNull

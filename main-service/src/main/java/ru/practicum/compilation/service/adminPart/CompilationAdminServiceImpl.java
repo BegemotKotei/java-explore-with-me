@@ -33,19 +33,19 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
 
     @Override
     public CompilationDto createCompilation(NewCompilationDto newCompilation) {
-        log.info("Администратор создает новую подборку \"{}\".", newCompilation.getTitle());
+        log.info("The administrator creates a new collection \"{}\".", newCompilation.getTitle());
         List<Event> events = new ArrayList<>();
         if (newCompilation.getEvents() != null) {
             events = eventUtils.getEventByIds(newCompilation.getEvents());
         }
         Compilation compilation = compilationRepository.save(CompilationMapper.INSTANT.toCompilation(newCompilation, events));
-        log.debug("Администратор создал новую подборку \"{}\" с ID = {}.", compilation.getTitle(), compilation.getId());
+        log.debug("The administrator creates a new collection \"{}\" with ID = {}.", compilation.getTitle(), compilation.getId());
         return CompilationMapper.INSTANT.toCompilationDto(compilation);
     }
 
     @Override
     public CompilationDto updateCompilationById(Long compId, UpdateCompilationRequest updatedCompilation) {
-        log.info("Администратор обновляет подборку с ID = {}.", compId);
+        log.info("The administrator updates the collection with ID = {}.", compId);
         Compilation compilationForUpdate = compilationUtils.getCompilationById(compId);
         List<Event> events = new ArrayList<>();
         if (updatedCompilation.getEvents() != null) {
@@ -55,13 +55,13 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
         Optional.ofNullable(updatedCompilation.getTitle()).ifPresent(compilationForUpdate::setTitle);
         Optional.ofNullable(events).ifPresent(compilationForUpdate::setEvents);
         Compilation compilation = compilationRepository.save(CompilationMapper.INSTANT.toCompilation(compilationForUpdate, events));
-        log.debug("Администратор обновил подборку \"{}\" с ID = {}.", compilation.getTitle(), compilation.getId());
-        return CompilationMapper.INSTANT.toCompilationDto(compilation);
+        log.debug("The administrator has updated the collection \"{}\" with ID = {}.", compilation.getTitle(), compilation.getId());
+            return CompilationMapper.INSTANT.toCompilationDto(compilation);
     }
 
     @Override
     public void deleteComplication(Long compId) {
-        log.debug("Администратор удаляет подборку с ID = {}.", compId);
+        log.debug("The administrator deletes the collection with ID = {}.", compId);
         compilationRepository.deleteById(compId);
     }
 

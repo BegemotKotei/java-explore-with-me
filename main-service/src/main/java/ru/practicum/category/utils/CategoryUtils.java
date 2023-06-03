@@ -21,36 +21,36 @@ public class CategoryUtils {
     private final EventRepository eventRepository;
 
     public Category getCategoryModelById(Long catId) {
-        log.info("Получение категории по ID = {}.", catId);
+        log.info("Getting a category by ID = {}.", catId);
         return categoryRepository.findById(catId).orElseThrow(
-                () -> new NotFoundException("Категория с ID = " + catId + " не найдена."));
+                () -> new NotFoundException("Category an ID = " + catId + " not found."));
     }
 
     public CategoryDto getCategoryById(Long catId) {
-        log.info("Получение категории по ID = {}.", catId);
+        log.info("Getting a category by ID = {}.", catId);
         return CategoryMapper.INSTANT.toCategoryDto(categoryRepository.findById(catId).orElseThrow(
-                () -> new NotFoundException("Категория с ID = " + catId + " не найдена.")
+                () -> new NotFoundException("Category an ID = " + catId + " not found.")
         ));
     }
 
     public void checkCategoryPresent(Long catId) {
         if (categoryRepository.getCategoryById(catId) == null) {
-            log.error("Категория c ID = {} не существует.",catId);
-            throw new BadRequestException("Категория c ID = " + catId + " не существует.");
+            log.error("Category c ID = {} does not exist.", catId);
+            throw new BadRequestException("Category an ID = " + catId + " does not exist.");
         }
     }
 
     public void checkCategoryNameIsBusy(String name) {
         if (categoryRepository.findFirstByName(name) != null) {
-            log.error("Категория \"{}\" уже существует.",name);
-            throw new ConflictException("Категория уже существует.");
+            log.error("The category \"{}\" already exists.", name);
+            throw new ConflictException("The category already exists.");
         }
     }
 
     public void checkCategoryUsing(Long catId) {
         if (eventRepository.findFirstByCategory(catId) != null) {
-            log.error("Категория c ID = {} используется и не может быть удалена.",catId);
-            throw new ConflictException("Категория c ID = " + catId + " используется и не может быть удалена.");
+            log.error("Category c ID = {} is used and cannot be deleted.", catId);
+            throw new ConflictException("Category an ID = " + catId + " used and cannot be deleted.");
         }
     }
 

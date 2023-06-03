@@ -23,13 +23,13 @@ public class StatisticValidation {
 
     public void ipIsValid(String ip) {
         if (!ipPattern.matcher(ip).matches()) {
-            throw new BadRequest("Невалидный IP адрес.");
+            throw new BadRequest("Invalid IP address.");
         }
     }
 
     public void dateIsValid(String date) {
         if (!datePattern.matcher(date).matches()) {
-            throw new BadRequest("Невалидная дата. Формат: yyyy-MM-dd HH:mm:ss");
+            throw new BadRequest("Invalid date. Format: yyyy-MM-dd HH:mm:ss");
         }
     }
 

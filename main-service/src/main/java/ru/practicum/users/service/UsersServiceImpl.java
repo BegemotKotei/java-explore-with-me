@@ -29,15 +29,15 @@ public class UsersServiceImpl implements UsersService {
     @Override
     @Transactional
     public UserDto createUser(NewUserRequest newUser) {
-        log.info("Создание пользователя с именем: {} и почтой: {}.", newUser.getName(),
+        log.info("Creating a user with the name: {} and mail: {}.", newUser.getName(),
                 newUser.getEmail().replaceAll("(?<=.{2}).(?=[^@]*?@)", "*"));
         if (!isUserPresentByEmail(newUser.getEmail())) {
             User user = usersRepository.save(UserMapper.INSTANT.newUserRequestToUser(newUser));
-            log.debug("Пользователь создан. ID = {}.", user.getId());
+            log.debug("The user has been created. ID = {}.", user.getId());
             return UserMapper.INSTANT.toUserDto(user);
         } else {
-            log.error("Не удалось создать пользователя. Email уже занят.");
-            throw new ConflictException("Данный адрес почты уже занят.");
+            log.error("Failed to create a user. The email is already busy.");
+            throw new ConflictException("This email address is already occupied.");
         }
     }
 
@@ -46,7 +46,7 @@ public class UsersServiceImpl implements UsersService {
         Integer page = from / size;
         PageRequest pageRequest = PageRequest.of(page, size);
         if (usersIds.size() > 0) {
-            log.info("Выгрузка списка пользователей {} с параметрами: size={}, from={}.", usersIds, size, page);
+            log.info("Uploading a list of users {} with parameters: size={}, from={}.", usersIds, size, page);
             Page<User> pagesByIds = usersRepository.getAllUsersById(pageRequest, usersIds);
             List<User> requests = pagesByIds.getContent();
             List<UserDto> requestsDto = requests.stream()
@@ -54,7 +54,7 @@ public class UsersServiceImpl implements UsersService {
                     .collect(Collectors.toList());
             return requestsDto;
         } else {
-            log.info("Выгрузка списка пользователей с параметрами: size={}, from={}.", size, page);
+            log.info("Uploading a list of users with parameters: size={}, from={}.", size, page);
             Page<User> pages = usersRepository.findAll(pageRequest);
             List<User> requests = pages.getContent();
             List<UserDto> requestsDto = requests.stream()
@@ -67,28 +67,20 @@ public class UsersServiceImpl implements UsersService {
     @Override
     @Transactional
     public void deleteUser(Long userId) {
-        log.debug("Удаление пользователя с id={}.", userId);
+        log.debug("Deleting a user with id={}.", userId);
         usersRepository.delete(getUserById(userId));
     }
 
-    @Override
     public User getUserById(Long userId) {
-        log.info("Получение пользователя по ID = {}.", userId);
+        log.info("Getting a user by ID = {}.", userId);
         return usersRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException("Пользователь с ID = " + userId + " не найден.")
+                () -> new NotFoundException("User with ID = " + userId + " not found.")
         );
     }
 
     @Override
     public boolean isUserPresentByEmail(String email) {
         return usersRepository.findFirstByEmail(email) != null;
-    }
-
-    @Override
-    public void isUserPresent(Long userId) {
-        usersRepository.findById(userId).orElseThrow(
-                () -> new NotFoundException("Пользователь с ID = " + userId + " не найден.")
-        );
     }
 
 }

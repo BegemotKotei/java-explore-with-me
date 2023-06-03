@@ -7,7 +7,6 @@ import ru.practicum.dto.ViewStats;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
 
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

@@ -3,7 +3,12 @@ package ru.practicum.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.dto.EndpointHit;
 import ru.practicum.dto.ViewStats;
 import ru.practicum.service.StatisticService;
@@ -23,7 +28,7 @@ public class StatisticController {
     @ResponseStatus(HttpStatus.CREATED)
     public EndpointHit addHit(
             @RequestBody EndpointHit endpointHit) {
-        log.info("Добавлен просмотр в статистику для URI: {}", endpointHit.getUri());
+        log.info("Added view to statistics for URI: {}", endpointHit.getUri());
         return statisticService.save(endpointHit);
     }
 
@@ -35,7 +40,7 @@ public class StatisticController {
             @RequestParam(value = "unique", defaultValue = "false") String unique,
             @RequestParam(value = "uris", required = false) Set<String> uris) {
 
-        log.info("Запрос статистики с параметрами: \n start={} \n end={} \n isUnique={} \n uris={}",
+        log.info("Request statistics with parameters: \n start={} \n end={} \n isUnique={} \n uris={}",
                 start, end, unique, uris);
         Map<String, String> params = Map.of(
                 "start", start,

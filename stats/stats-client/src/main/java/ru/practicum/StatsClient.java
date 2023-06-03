@@ -5,7 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +34,7 @@ public class StatsClient {
 
     private final String viewsFromThisDate = "2000-01-01 00:00:00";
 
-    private final RestTemplate restTemplate =  new RestTemplateBuilder()
+    private final RestTemplate restTemplate = new RestTemplateBuilder()
             .uriTemplateHandler(new DefaultUriBuilderFactory(String.valueOf(serverUrl)))
             .requestFactory(HttpComponentsClientHttpRequestFactory::new)
             .build();
@@ -49,7 +52,8 @@ public class StatsClient {
 
     private List<ViewStats> sendStatsRequest(String path) {
         return restTemplate.exchange(path, HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<ViewStats>>() {}).getBody();
+                new ParameterizedTypeReference<List<ViewStats>>() {
+                }).getBody();
     }
 
     public List<ViewStats> getViewsByUris(Set<String> uri) {
@@ -59,7 +63,7 @@ public class StatsClient {
                 .addParameter("end",
                         LocalDateTime.now().format(DateConstants.DTF))
                 .addParameter("unique", "true");
-        for (String url: uris) {
+        for (String url : uris) {
             path.addParameter("uris", url);
         }
         return sendStatsRequest(URLDecoder.decode(path.toString(), StandardCharsets.UTF_8));

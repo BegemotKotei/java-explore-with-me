@@ -42,7 +42,7 @@ public class EventPubServiceImpl implements EventPubService {
     public List<EventShortDto> getEventsByPublic(
             String text, Set<Long> categories, Boolean paid, LocalDateTime rangeStart, LocalDateTime rangeEnd,
             Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest request) {
-        log.info("Выгрузка списка мероприятий. Публичный API с параметрами: " +
+        log.info("Uploading a list of events. Public API with parameters: " +
                         "text = {}, categories = {}, paid = {}, rangeStart = {}, rangeEnd = {}, onlyAvailable = {}, " +
                         "sort = {}, from = {}, size = {}.",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
@@ -79,7 +79,7 @@ public class EventPubServiceImpl implements EventPubService {
             return client.setViewsEventFullDto(
                     EventMapper.INSTANT.toEventFullDto(event));
         } else {
-            throw new NotFoundException("Мероприятие с ID = " + eventId + " не найдено.");
+            throw new NotFoundException("Event with ID = " + eventId + " not found.");
         }
     }
 

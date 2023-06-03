@@ -29,22 +29,22 @@ public class EventUtils {
 
     public void checkIfEvenDateCorrect(LocalDateTime evenDate) {
         if (LocalDateTime.now().plusHours(2).isAfter(evenDate)) {
-            log.error("Некорректная дата начала мероприятия. (Меньше 2-х часов до начала).");
-            throw new BadRequestException("Некорректная дата начала мероприятия. (Меньше 2-х часов до начала).");
+            log.error("Incorrect start date of the event. (Less than 2 hours before the start).");
+            throw new BadRequestException("Incorrect start date of the event. (Less than 2 hours before the start).");
         }
     }
 
     public void checkIfEventCanBeUpdated(UpdateEventRequest updatedEven, Event oldEvent, User user) {
         if (!oldEvent.getInitiator().getId().equals(user.getId())) {
-            log.error("Только инициатор или администратор могут менять мероприятие.");
-            throw new BadRequestException("Только инициатор или администратор могут менять мероприятие.");
+            log.error("Only the initiator or the administrator can change the event.");
+            throw new BadRequestException("Only the initiator or the administrator can change the event.");
         }
         if (updatedEven.getEventDate() != null) {
             checkIfEvenDateCorrect(updatedEven.getEventDate());
         }
         if (oldEvent.getState().equals(EventState.PUBLISHED)) {
-            log.error("Только мероприятия со статусом PENDING или CANCELED могут быть изменены.");
-            throw new ConflictException("Только мероприятия со статусом PENDING или CANCELED могут быть изменены.");
+            log.error("Only events with PENDING or CANCELLED status can be changed.");
+            throw new ConflictException("Only events with PENDING or CANCELLED status can be changed.");
         }
     }
 
@@ -52,6 +52,7 @@ public class EventUtils {
         switch (eventStateAction) {
             case PUBLISH_EVENT:
                 event.setState(EventState.PUBLISHED);
+                event.setPublishedOn(LocalDateTime.now());
                 break;
             case SEND_TO_REVIEW:
                 event.setState(EventState.PENDING);
@@ -63,15 +64,15 @@ public class EventUtils {
     }
 
     public Event getEventById(Long eventId) {
-        log.info("Получение мероприятия по ID = {}.", eventId);
+        log.info("Getting an event by ID = {}.", eventId);
         return eventRepository.findById(eventId).orElseThrow(
-                () -> new NotFoundException("Мероприятие с ID = " + eventId + " не найдено.")
+                () -> new NotFoundException("Event with ID = " + eventId + " not found.")
         );
     }
 
     public void checkEventIsPresent(Long eventId) {
         eventRepository.findById(eventId).orElseThrow(
-                () -> new NotFoundException("Мероприятие с ID = " + eventId + " не найдено.")
+                () -> new NotFoundException("Event with ID = " + eventId + " not found.")
         );
     }
 
@@ -97,7 +98,7 @@ public class EventUtils {
                 if (updatedEvent.getState().equals(EventState.PENDING)) {
                     setEventStateByEventStateAction(updatedEvent, updateEventRequest.getStateAction());
                 } else {
-                    throw new ConflictException("Мероприятие с ID = " + updatedEvent.getId() + " уже опубликовано/отменено.");
+                    throw new ConflictException("Event with ID = " + updatedEvent.getId() + " already published/canceled.");
                 }
             }
         } else {
@@ -110,7 +111,7 @@ public class EventUtils {
     }
 
     public List<Event> getEventByIds(List<Long> events) {
-        log.info("Выгрузка списка мероприятий по списку ID.");
+        log.info("Uploading a list of events by ID list.");
         return eventRepository.getByIdIn(events);
     }
 
