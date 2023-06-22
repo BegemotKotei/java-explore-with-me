@@ -35,7 +35,7 @@
 
 ## Спецификация:
 
-Спецификации [основного сервиса]() и [сервиса статистики]() можно посмотреть с помощью [Swagger](https://editor-next.swagger.io)
+Спецификации [основного сервиса](https://raw.githubusercontent.com/yandex-praktikum/java-explore-with-me/main/ewm-main-service-spec.json) и [сервиса статистики](https://raw.githubusercontent.com/yandex-praktikum/java-explore-with-me/main/ewm-stats-service-spec.json) можно посмотреть с помощью [Swagger](https://editor-next.swagger.io)
 
 ## Шаблоны проектирования:
 
